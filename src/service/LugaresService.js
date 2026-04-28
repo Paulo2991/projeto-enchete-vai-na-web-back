@@ -22,6 +22,26 @@ class LugaresService{
              throw new Error("Erro ao cadastrar lugares: " + erro.message);                   
           }                    
       }
-}
+
+    async consultarLugaresDisponiveis(){
+      try {
+            const lugaresDisponiveis = await pool.query(`
+              SELECT t.descricao,t.prioridade_evacuacao,t.foto_url,
+                l.nome,l.status
+                FROM lugares as l
+                JOIN tipo_lugar as t
+                ON l.id_tipo = t.id`);
+            return lugaresDisponiveis.rows.map((lugarDisponivel) => ({
+              nome: lugarDisponivel.nome,
+              status: lugarDisponivel.status,
+              descricao: lugarDisponivel.descricao,
+              prioridade_evacuacao: lugarDisponivel.prioridade_evacuacao,
+              foto_url: lugarDisponivel.foto_url,
+          }));
+          } catch (erro) {
+            throw new Error("Erro ao buscar lugares disponiveis: " + erro.message);
+          }
+        }
+    }
 
 module.exports = new LugaresService();

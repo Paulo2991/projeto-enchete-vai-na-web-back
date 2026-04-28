@@ -7,7 +7,7 @@ class VoluntarioController{
   }
 
   async consultarVoluntariosDisponiveis(req, res){
-    const voluntariosDisponiveis = await voluntarioService.consultarVoluntariosDisponiveis();
+    const voluntariosDisponiveis = await voluntarioService.consultarVonluntariosDisponiveis();
     res.json(voluntariosDisponiveis);
   }
 

@@ -27,7 +27,7 @@ class VoluntarioService {
   try {
     const voluntarioPorId = await pool.query(
       `
-          SELECT * FROM voluntario WHERE id = $1                                      
+          SELECT * FROM voluntarios WHERE id = $1                                      
      `,
       [id],
     );
@@ -41,10 +41,15 @@ class VoluntarioService {
     try {
       const voluntariosDisponiveis = await pool.query(`
         SELECT p.nome,p.contato,p.endereco,v.recurso,v.descricao,v.esta_disponivel 
-        from pessoa as p join voluntarios as v on v.id_pessoas = p.id`);
-      return voluntariosDisponiveis.rows.map(
-        (voluntarioDisponivel) => new VoluntarioModel(voluntarioDisponivel),
-      );
+        FROM pessoa as p JOIN voluntarios as v on v.id_pessoas = p.id`);
+      return voluntariosDisponiveis.rows.map((voluntarioDisponivel) => ({
+        nome: voluntarioDisponivel.nome,
+        contato: voluntarioDisponivel.contato,
+        endereco: voluntarioDisponivel.endereco,
+        recurso: voluntarioDisponivel.recurso,
+        descricao: voluntarioDisponivel.descricao,
+        esta_disponivel: voluntarioDisponivel.esta_disponivel,
+    }));
     } catch (erro) {
       throw new Error("Erro ao buscar voluntarios disponiveis: " + erro.message);
     }

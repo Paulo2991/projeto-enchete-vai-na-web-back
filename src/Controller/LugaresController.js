@@ -6,6 +6,11 @@ class LugaresController {
        res.json(lugares);
      }
 
+     async consultarLugaresDisponiveis(req, res){
+         const lugaresDisponiveis = await lugaresService.consultarLugaresDisponiveis();
+         res.json(lugaresDisponiveis);
+       }
+
      async cadastrarLugares(req,res){
          const cadastroLugares = await lugaresService.cadastrarLugares(req.body);
          res.status(201).json({
